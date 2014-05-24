@@ -1,0 +1,36 @@
+{
+    "name": "sebastian/test-mapper",
+    "description": "A tool that visualizes the information of PHPUnit's @covers and @uses annotations.",
+    "homepage": "https://github.com/sebastianbergmann/test-mapper",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Bergmann",
+            "email": "sebastian@phpunit.de",
+            "role": "lead"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sebastianbergmann/test-mapper/issues"
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "sebastian/finder-facade": "~1.1",
+        "sebastian/version": "~1.0.3",
+        "symfony/console": "~2.2"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "bin": [
+        "test-mapper"
+    ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
+
