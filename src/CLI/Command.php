@@ -43,6 +43,7 @@
 namespace SebastianBergmann\TestMapper\CLI;
 
 use SebastianBergmann\FinderFacade\FinderFacade;
+use SebastianBergmann\TestMapper\Analyser;
 use Symfony\Component\Console\Command\Command as AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -104,5 +105,40 @@ class Command extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $analyser = new Analyser;
+        $data     = $analyser->analyse($this->getFiles($input));
+    }
+
+    /**
+     * @param InputInterface $input
+     * @return array
+     */
+    private function getFiles(InputInterface $input)
+    {
+        $finder = new FinderFacade(
+            $input->getArgument('values'),
+            $input->getOption('exclude'),
+            $this->handleCSVOption($input, 'names'),
+            $this->handleCSVOption($input, 'names-exclude')
+        );
+
+        return $finder->findFiles();
+    }
+
+    /**
+     * @param InputInterface $input
+     * @param string $option
+     * @return array
+     */
+    private function handleCSVOption(InputInterface $input, $option)
+    {
+        $result = $input->getOption($option);
+
+        if (!is_array($result)) {
+            $result = explode(',', $result);
+            array_map('trim', $result);
+        }
+
+        return $result;
     }
 }
