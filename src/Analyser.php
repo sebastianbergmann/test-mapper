@@ -88,6 +88,7 @@ class Analyser
         }
 
         $data['units'] = array_unique($data['units']);
+        sort($data['units']);
 
         return $data;
     }
