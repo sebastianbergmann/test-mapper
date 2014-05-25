@@ -44,6 +44,7 @@ namespace SebastianBergmann\TestMapper\CLI;
 
 use SebastianBergmann\FinderFacade\FinderFacade;
 use SebastianBergmann\TestMapper\Analyser;
+use SebastianBergmann\TestMapper\Exporter\GraphViz;
 use Symfony\Component\Console\Command\Command as AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -92,6 +93,12 @@ class Command extends AbstractCommand
                 null,
                 InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY,
                 'Exclude a directory from test analysis'
+            )
+            ->addOption(
+                'graphviz',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Write result in GraphViz/DOT format to file'
             );
     }
 
@@ -107,6 +114,11 @@ class Command extends AbstractCommand
     {
         $analyser = new Analyser;
         $data     = $analyser->analyse($this->getFiles($input));
+
+        if ($input->getOption('graphviz')) {
+            $exporter = new GraphViz;
+            $exporter->export($input->getOption('graphviz'), $data);
+        }
     }
 
     /**
