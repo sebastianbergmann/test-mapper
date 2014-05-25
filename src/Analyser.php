@@ -78,16 +78,16 @@ class Analyser
                         'uses'   => $annotations['uses']
                     );
 
-                    $data['units'] = array_unique(
-                        array_merge(
-                            $data['units'],
-                            $annotations['covers'],
-                            $annotations['uses']
-                        )
+                    $data['units'] = array_merge(
+                        $data['units'],
+                        $annotations['covers'],
+                        $annotations['uses']
                     );
                 }
             }
         }
+
+        $data['units'] = array_unique($data['units']);
 
         return $data;
     }
