@@ -59,20 +59,31 @@ class Analyser
      */
     public function analyse(array $files)
     {
-        $data = array();
+        $data = array(
+            'tests' => array(),
+            'units' => array()
+        );
 
         foreach ($files as $file) {
             $ts = new PHP_Token_Stream($file);
 
             foreach ($ts->getClasses() as $className => $classData) {
-                $data[$className] = array();
+                $data['tests'][$className] = array();
 
                 foreach ($classData['methods'] as $methodName => $methodData) {
                     $annotations = $this->parseDocblock($methodData['docblock']);
 
-                    $data[$className][$methodName] = array(
+                    $data['tests'][$className][$methodName] = array(
                         'covers' => $annotations['covers'],
                         'uses'   => $annotations['uses']
+                    );
+
+                    $data['units'] = array_unique(
+                        array_merge(
+                            $data['units'],
+                            $annotations['covers'],
+                            $annotations['uses']
+                        )
                     );
                 }
             }
