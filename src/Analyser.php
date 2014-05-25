@@ -119,6 +119,21 @@ class Analyser
             }
         );
 
+        $annotations = array(
+            'covers' => array_filter(
+                $annotations['covers'],
+                function ($element) {
+                    return strpos($element, '::');
+                }
+            ),
+            'uses' => array_filter(
+                $annotations['uses'],
+                function ($element) {
+                    return strpos($element, '::');
+                }
+            ),
+        );
+
         return $annotations;
     }
 }
