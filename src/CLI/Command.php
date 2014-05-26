@@ -118,6 +118,13 @@ class Command extends AbstractCommand
         if ($input->getOption('graphviz')) {
             $exporter = new GraphViz;
             $exporter->export($input->getOption('graphviz'), $data);
+
+            $output->writeln(
+                sprintf(
+                    "Wrote test map in GraphViz/DOT format to %s",
+                    $input->getOption('graphviz')
+                )
+            );
         }
     }
 
