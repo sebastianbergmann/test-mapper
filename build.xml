@@ -71,6 +71,13 @@
             </fileset>
         </copy>
 
+        <copy todir="${basedir}/build/phar/php-token-stream">
+            <fileset dir="${basedir}/vendor/phpunit/php-token-stream/PHP">
+                <include name="**/*.php" />
+                <exclude name="**/Autoload.php" />
+            </fileset>
+        </copy>
+
         <copy todir="${basedir}/build/phar/finder-facade">
             <fileset dir="${basedir}/vendor/sebastian/finder-facade/src">
                 <include name="**/*.php" />
