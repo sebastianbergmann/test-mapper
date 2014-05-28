@@ -202,6 +202,12 @@ class GraphViz
      */
     private function getId($class, $method)
     {
-        return strtolower(str_replace('\\', '_', $class . '_' . $method));
+        $replaceMap = array(
+            '\\' => '_',
+            '(' => '',
+            ')' => ''
+        );
+
+        return strtolower(str_replace(array_keys($replaceMap), array_values($replaceMap), $class . '_' . $method));
     }
 }
