@@ -119,21 +119,54 @@ class Analyser
             }
         );
 
-        $annotations = array(
+        return $this->filterAnnotations($annotations);
+    }
+
+    /**
+     * @param  array $annotations
+     * @return array
+     * @since  Method available since Release 1.0.1
+     */
+    private function filterAnnotations(array $annotations)
+    {
+        return array(
             'covers' => array_filter(
                 $annotations['covers'],
-                function ($element) {
-                    return strpos($element, '::');
-                }
+                array($this, 'filterElement')
             ),
             'uses' => array_filter(
                 $annotations['uses'],
-                function ($element) {
-                    return strpos($element, '::');
-                }
+                array($this, 'filterElement')
             ),
         );
+    }
 
-        return $annotations;
+    /**
+     * @param  string $element
+     * @return boolean
+     * @since  Method available since Release 1.0.1
+     */
+    private function filterElement($element)
+    {
+        $tmp = strpos($element, '::');
+
+        // @covers ClassName
+        // @covers ::functionName
+        if ($tmp === false || $tmp === 0) {
+            return false;
+        }
+
+        // @covers ClassName<extended>
+        // @covers ClassName::<public>
+        // @covers ClassName::<protected>
+        // @covers ClassName::<private>
+        // @covers ClassName::<!public>
+        // @covers ClassName::<!protected>
+        // @covers ClassName::<!private>
+        if (strpos($element, '<') !== false) {
+            return false;
+        }
+
+        return true;
     }
 }
