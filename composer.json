@@ -17,7 +17,7 @@
         "php": ">=5.3.3",
         "phpunit/php-token-stream": "~1.2",
         "sebastian/finder-facade": "~1.1",
-        "sebastian/version": "~1.0.3",
+        "sebastian/version": "~1.0",
         "symfony/console": "~2.2"
     },
     "autoload": {
